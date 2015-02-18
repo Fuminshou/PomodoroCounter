@@ -10,5 +10,6 @@ class RegistrationTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals(200, $statusCode);
         $this->assertContains('Contact us', $pageContent);
         $this->assertContains('<form', $pageContent);
+        $this->assertNotContains('i hate u', $pageContent);
     }
 }
