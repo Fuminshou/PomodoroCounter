@@ -1,2 +1,2 @@
 # PomodoroCounter
-Pomodoro technique time tracked: HTML5, CSS3, PHP5, mySQL, Silex
+Pomodoro technique time tracker: HTML5, CSS3, PHP5, mySQL, PHPUnit, Silex

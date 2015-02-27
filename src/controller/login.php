@@ -1,13 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: nicole
- * Date: 18/02/15
- * Time: 10:28
- */
 
-class login {
+class login
+{
         public function login() {
-            return "sono un pheeko";
+
+            return 'Il form venne inviato tramite post';
         }
 }
