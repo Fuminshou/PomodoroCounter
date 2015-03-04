@@ -6,29 +6,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new Silex\Application();
 
-$app->get('/', function() {
+$app->register(new Silex\Provider\TwigServiceProvider(), array(
+    'twig.path' => __DIR__ . '/../src/View'
+));
 
-    ob_start();
-    require __DIR__ . '/../src/view/login.php';
-    $response = ob_get_contents();
-    ob_end_clean();
-
-    return new Response($response);
-});
-
-
-$app->post('/login', function() {
-
-
-    ob_start();
-    require __DIR__ . '/../src/controller/login.php';
-    $ctr = new login();
-    $ctr_value = $ctr->login();
-    require __DIR__ . '/../src/view/login.php';
-    $response = ob_get_contents();
-    ob_end_clean();
-
-    return new Response($response);
-});
+$app->get('/',          'Pomodoro\Controller\AuthenticationController::indexAction');
+$app->post('/login',    'Pomodoro\Controller\AuthenticationController::loginAction');
+$app->get('/projects',  'Pomodoro\Controller\AuthenticationController::projectsAction');
 
 return $app;

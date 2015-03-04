@@ -1,11 +1,11 @@
 <?php
 
-//use PHPUnit_Extensions_Database_TestCase;
-//use Symfony\Component\HttpKernel\HttpKernel;
+namespace Pomodoro\Test;
+
 use Symfony\Component\HttpKernel\Client;
 
 
-class MyWebAndDBTestCase extends PHPUnit_Extensions_Database_TestCase
+class MyWebAndDBTestCase extends \PHPUnit_Extensions_Database_TestCase
 {
 
     protected $app;
@@ -18,9 +18,9 @@ class MyWebAndDBTestCase extends PHPUnit_Extensions_Database_TestCase
     {
         if ($this->conn === null) {
             try {
-                $pdo = new PDO('mysql:host=localhost;dbname=PomodoroCounter', 'root', '123456ciao');
+                $pdo = new \PDO('mysql:host=localhost;dbname=PomodoroCounter', 'root', '123456ciao');
                 $this->conn = $this->createDefaultDBConnection($pdo, 'PomodoroCounter');
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
                 echo $e->getMessage();
             }
         }
@@ -39,7 +39,7 @@ class MyWebAndDBTestCase extends PHPUnit_Extensions_Database_TestCase
 
     public function createApplication()
     {
-        return require __DIR__ . '/../app/app.php';
+        return require __DIR__ . '/../../app/app.php';
     }
 
     /**
