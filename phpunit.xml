@@ -15,6 +15,7 @@
     <testsuites>
         <testsuite name="Pomodoro Test Suite">
             <directory>./tests/functional/</directory>
+            <directory>./tests/integration/</directory>
             <directory>./tests/unit/</directory>
         </testsuite>
     </testsuites>

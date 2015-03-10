@@ -5,7 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = new Silex\Application();
 
-$app['debug'] = true;
+$app['debug'] = true;   //mettere a false in produzione
 
 $app->register(new Silex\Provider\SessionServiceProvider(array('session.storage.save_path' => sys_get_temp_dir())));
 $app->register(new Silex\Provider\TwigServiceProvider(), array(

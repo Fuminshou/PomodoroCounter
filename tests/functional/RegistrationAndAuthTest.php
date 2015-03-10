@@ -1,10 +1,17 @@
 <?php
 
-use Pomodoro\Test\MyWebAndDBTestCase;
-
-
-class RegistrationAndAuthTest extends MyWebAndDBTestCase
+class RegistrationAndAuthTest extends \Silex\WebTestCase
 {
+    public function createApplication()
+    {
+        $app = require __DIR__ . '/../../app/app.php';
+
+        $app['session.test'] = true;
+
+        return $app;
+    }
+
+
     protected function prepareForm($crawler, $username, $email)
     {
         $formData = [
@@ -27,7 +34,7 @@ class RegistrationAndAuthTest extends MyWebAndDBTestCase
         $this->assertContains("email", $crawler->filter('input[type="email"]')->attr('name'));
         $this->assertContains("Entra", $crawler->filter('input[type="submit"]')->attr('value'));
 
-        $form = $this->prepareForm($crawler, 'Nicola', 'example@nicola.com');
+        $form = $this->prepareForm($crawler, 'Nicolas', 'nicolas@example.com');
 
         $client->submit($form);
 
@@ -35,7 +42,7 @@ class RegistrationAndAuthTest extends MyWebAndDBTestCase
         $formCrawler = $client->followRedirect();
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Ciao Nicola!', $formCrawler->filter('h2')->text());
+        $this->assertContains('Ciao Nicolas!', $formCrawler->filter('h2')->text());
     }
 
 
@@ -57,13 +64,13 @@ class RegistrationAndAuthTest extends MyWebAndDBTestCase
     }
 
 
-    public function testAnonymousUserLoginShouldFail()
+    public function testLoginOrRegistrationShouldFail()
     {
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/');
 
-        $form = $this->prepareForm($crawler, 'Nicola', 'nicole@example.com');
+        $form = $this->prepareForm($crawler, 'Nicolas', 'nicole@example.com');
 
         $client->submit($form);
 
