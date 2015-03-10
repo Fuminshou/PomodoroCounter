@@ -5,6 +5,6 @@
         <title>Pomodoro Time Tracker</title>
     </head>
     <body>
-        <h2>Ciao {{ username }}!</h2> <!-- username non si vede --->
+        <h2>Ciao {{ user.nome }}!</h2>
     </body>
 </html>

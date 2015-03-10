@@ -39,7 +39,11 @@ class MyWebAndDBTestCase extends \PHPUnit_Extensions_Database_TestCase
 
     public function createApplication()
     {
-        return require __DIR__ . '/../../app/app.php';
+        $app = require __DIR__ . '/../../app/app.php';
+
+        $app['session.test'] = true;
+
+        return $app;
     }
 
     /**
