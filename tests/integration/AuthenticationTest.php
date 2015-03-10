@@ -56,11 +56,30 @@ class AuthenticationTest extends MyWebAndDBTestCase
     }
 
 
-    public function testInsertNewUserInDBReturnTrue() {
+    public function testInsertNewUserInDBReturnTrue()
+    {
 
         $this->setUpDatas('Nicolas', 'nicolas@example.com');
 
         $result = $this->auth->insertNewUserInDB($this->user, $this->mail);
         $this->assertEquals(true, $result);
+    }
+
+
+    public function testLoginOrRegisterSuccess() {
+
+        $this->setUpDatas('Nicole', 'nicole@example.com');
+
+        $result = $this->auth->loginOrRegister($this->user, $this->mail);
+        $this->assertEquals(true, $result);
+    }
+
+
+    public function testLoginOrRegisterFail() {
+
+        $this->setUpDatas('Nicolas', 'nicole@example.com');
+
+        $result = $this->auth->loginOrRegister($this->user, $this->mail);
+        $this->assertEquals(false, $result);
     }
 }

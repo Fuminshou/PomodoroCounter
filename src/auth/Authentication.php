@@ -1,7 +1,6 @@
 <?php
 
 namespace Pomodoro\Auth;
-use \PDO;
 
 class Authentication {
 
@@ -39,13 +38,26 @@ class Authentication {
             return true;    //login ok
         }
 
-        return $this->insertNewUserInDB($user, $mail);  //login o registrazione ok
+        return $this->insertNewUserInDB($user, $mail);  //registrazione ok
     }
 
 
     public function checkIfEmailExistInDB($mail) {
 
-        if($mail === 'nicole@example.com') return true;
+        $stmt = $this->conn->prepare("SELECT * FROM User WHERE email = :email");
+        $stmt->bindParam(':email', $mail);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_NUM);
+
+        if($result[0] > 0) return true;
+
+        return false;
+    }
+
+
+    public function checkIfUsernameMatchEmail($user, $mail) {
+
+        if($mail === 'nicole@example.com' && $user === 'Nicole') return true;
 
         return false;
     }
@@ -53,13 +65,7 @@ class Authentication {
 
     public function insertNewUserInDB($user, $mail) {
 
-        return true;
-    }
-
-
-    public function checkIfUsernameMatchEmail($user, $mail) {
-
-        if($mail === 'nicole@example.com' && $user === 'Nicole') return true;
+        if($user && $mail) return true;
 
         return false;
     }
