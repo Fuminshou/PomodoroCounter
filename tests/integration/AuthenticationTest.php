@@ -20,12 +20,13 @@ class AuthenticationTest extends MyWebAndDBTestCase
     }
 
 
-    public function testCheckIfEmailExistInDBReturnTrue() {
+    public function testCheckIfEmailExistInDBReturnRowFromDB() {
 
         $this->setUpDatas('Nicole', 'nicole@example.com');
 
         $result = $this->auth->checkIfEmailExistInDB($this->mail);
-        $this->assertEquals(true, $result);
+        $this->assertEquals($this->user, $result['name']);
+        $this->assertEquals($this->mail, $result['email']);
     }
 
 
@@ -34,24 +35,6 @@ class AuthenticationTest extends MyWebAndDBTestCase
         $this->setUpDatas('Nicolas', 'nicolas@example.com');
 
         $result = $this->auth->checkIfEmailExistInDB($this->mail);
-        $this->assertEquals(false, $result);
-    }
-
-
-    public function testCheckIfUsernameMatchEmailReturnTrue() {
-
-        $this->setUpDatas('Nicole', 'nicole@example.com');
-
-        $result = $this->auth->checkIfUsernameMatchEmail($this->user, $this->mail);
-        $this->assertEquals(true, $result);
-    }
-
-
-    public function testCheckIfUsernameMatchEmailReturnFalse() {
-
-        $this->setUpDatas('Nicolas', 'nicole@example.com');
-
-        $result = $this->auth->checkIfUsernameMatchEmail($this->user, $this->mail);
         $this->assertEquals(false, $result);
     }
 

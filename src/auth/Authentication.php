@@ -26,19 +26,15 @@ class Authentication {
 
     public function loginOrRegister($user, $mail) {
 
-        $emailExist = $this->checkIfEmailExistInDB($mail);
+        $dataExist = $this->checkIfEmailExistInDB($mail);
 
-        if($emailExist) {
-            $usernameMatch = $this->checkIfUsernameMatchEmail($user, $mail);
+        if(!empty($dataExist)) {
+            if($dataExist['name'] !== $user) return false;   //wrong username for this email
 
-            if(!$usernameMatch) {
-                return false;   //email esistente ma username sbagliato
-            }
-
-            return true;    //login ok
+            return true;    //data are correct, proceed to login user
         }
 
-        return $this->insertNewUserInDB($user, $mail);  //registrazione ok
+        return $this->insertNewUserInDB($user, $mail);  //data doesn't exist, proceed with a new user registration
     }
 
 
@@ -47,26 +43,25 @@ class Authentication {
         $stmt = $this->conn->prepare("SELECT * FROM User WHERE email = :email");
         $stmt->bindParam(':email', $mail);
         $stmt->execute();
-        $result = $stmt->fetch(\PDO::FETCH_NUM);
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        if($result[0] > 0) return true;
-
-        return false;
-    }
-
-
-    public function checkIfUsernameMatchEmail($user, $mail) {
-
-        if($mail === 'nicole@example.com' && $user === 'Nicole') return true;
+        if($result) return $result;
 
         return false;
     }
 
 
     public function insertNewUserInDB($user, $mail) {
+        try {
+            $sql = "INSERT INTO User VALUES (NULL, '".$user."','".$mail."')";
+            $this->conn->exec($sql);
 
-        if($user && $mail) return true;
+            return true;
+        }
+        catch (PDOException $e) {
+            echo $sql . "<br>" . $e->getMessage();
 
-        return false;
+            return false;
+        }
     }
 }
